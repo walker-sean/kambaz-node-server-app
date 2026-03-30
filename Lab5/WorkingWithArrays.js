@@ -76,6 +76,9 @@ export default function WorkingWithArrays(app) {
       res.status(404).json({ message: `Unable to update Todo with ID ${id}` });
       return;
     }
+    const updatedTodo = { ...todos[todoIndex], ...req.body };
+    todos[todoIndex] = updatedTodo;
+    res.json(updatedTodo);
   };
 
   app.put("/lab5/todos/:id", updateTodo);
