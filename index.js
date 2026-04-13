@@ -10,6 +10,10 @@ import CourseRoutes from "./kambaz/courses/routes.js";
 import EnrollmentRoutes from "./kambaz/enrollments/routes.js";
 import ModulesRoutes from "./kambaz/modules/routes.js";
 import AssignmentsRoutes from "./kambaz/assignments/routes.js";
+import mongoose from "mongoose";
+const CONNECTION_STRING =
+  process.env.DATABASE_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kambaz";
+mongoose.connect(CONNECTION_STRING);
 const app = express();
 app.use(
   cors({
@@ -27,7 +31,9 @@ if (process.env.SERVER_ENV !== "development") {
   sessionOptions.cookie = {
     sameSite: "none",
     secure: true,
-    domain: process.env.SERVER_URL ? new URL(process.env.SERVER_URL).hostname : undefined,
+    domain: process.env.SERVER_URL
+      ? new URL(process.env.SERVER_URL).hostname
+      : undefined,
   };
 }
 app.use(session(sessionOptions));
