@@ -11,6 +11,7 @@ import EnrollmentRoutes from "./kambaz/enrollments/routes.js";
 import ModulesRoutes from "./kambaz/modules/routes.js";
 import AssignmentsRoutes from "./kambaz/assignments/routes.js";
 import mongoose from "mongoose";
+import QuizzesRoutes from "./kambaz/quizzes/routes.js";
 const CONNECTION_STRING =
   process.env.DATABASE_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kambaz";
 mongoose.connect(CONNECTION_STRING);
@@ -43,6 +44,7 @@ CourseRoutes(app, db);
 EnrollmentRoutes(app, db);
 ModulesRoutes(app, db);
 AssignmentsRoutes(app, db);
+QuizzesRoutes(app);
 Lab5(app);
 Hello(app);
 app.listen(process.env.PORT || 4000);
