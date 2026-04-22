@@ -15,6 +15,16 @@ export default function QuizzesDao() {
     };
 
     async function updateQuiz(quizId, quizUpdates) {
+        if (quizUpdates.questions) {
+            quizUpdates.questions = quizUpdates.questions.map(question => ({
+                ...question,
+                _id: question._id || uuidv4(),
+                choices: question.choices?.map(choice => ({
+                    ...choice,
+                    _id: choice._id || uuidv4(),
+                })),
+            }));
+        }
         return await quizModel.findByIdAndUpdate(quizId, quizUpdates);    
     }
 
@@ -84,7 +94,7 @@ export default function QuizzesDao() {
                     }
                     break;
                 case 'FILL_IN_THE_BLANK':
-                    if (correctResponses.map(response => response.toLowerCase()).includes(response)) {
+                    if (correctResponses.map(cr => cr.toLowerCase()).includes(response.toLowerCase())) {
                         earnedPoints += points;
                     }
             }
