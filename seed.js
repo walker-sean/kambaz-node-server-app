@@ -10,49 +10,26 @@ import users from "./kambaz/database/users.js";
 import courses from "./kambaz/database/courses.js";
 import enrollments from "./kambaz/database/enrollments.js";
 import assignments from "./kambaz/database/assignments.js";
+import modules from "./kambaz/database/modules.js";
 
 const CONNECTION_STRING =
   process.env.DATABASE_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kambaz";
 
-// ─── Seed users (fix "TA" → "FACULTY" for Mongoose enum validation) ───
-const seedUsers = users.map((u) => {
-  if (u.role === "TA") return { ...u, role: "FACULTY" };
-  return u;
-});
+// ─── Build course-to-modules mapping using module ID prefix convention ───
+// M1xx → RS101, M2xx → RS102, …, M8xx → RS108
+const modulesByCourse = {};
+for (const mod of modules) {
+  const digit = mod._id.charAt(1); // "M401" → "4"
+  const courseId = `RS10${digit}`;
+  if (!modulesByCourse[courseId]) modulesByCourse[courseId] = [];
+  modulesByCourse[courseId].push(mod);
+}
 
-// ─── Seed courses (only schema-valid fields) ───
-const seedCourses = courses.map(({ _id, name, number, credits, description }) => ({
-  _id,
-  name,
-  number,
-  credits,
-  description,
+// ─── Embed modules into their courses ───
+const seedCourses = courses.map((c) => ({
+  ...c,
+  modules: modulesByCourse[c._id] || [],
 }));
-
-// ─── Seed enrollments ───
-const seedEnrollments = enrollments.map((e) => ({
-  ...e,
-  enrollmentDate: new Date(),
-  status: "ENROLLED",
-}));
-
-// ─── Seed assignments (only schema-valid fields) ───
-const seedAssignments = assignments.map(
-  ({ _id, title, course, available, until, points, group, gradeType, submissionType, onlineEntryOptions, assignTo, description }) => ({
-    _id,
-    title,
-    course,
-    available,
-    until,
-    points,
-    group,
-    gradeType,
-    submissionType,
-    onlineEntryOptions,
-    assignTo,
-    description,
-  }),
-);
 
 // ─── Seed quiz attempts (student scores for the demo) ───
 const seedAttempts = [
@@ -152,32 +129,34 @@ async function seed() {
     // 1. Users
     const deletedUsers = await UserModel.deleteMany({});
     console.log(`Cleared ${deletedUsers.deletedCount} users`);
-    const insertedUsers = await UserModel.insertMany(seedUsers);
+    const insertedUsers = await UserModel.insertMany(users);
     console.log(`Inserted ${insertedUsers.length} users:`);
     insertedUsers.forEach((u) =>
       console.log(`  [${u.role.padEnd(7)}] ${u.firstName} ${u.lastName} (${u.username})`),
     );
     console.log();
 
-    // 2. Courses
+    // 2. Courses (with embedded modules)
     const deletedCourses = await CourseModel.deleteMany({});
     console.log(`Cleared ${deletedCourses.deletedCount} courses`);
     const insertedCourses = await CourseModel.insertMany(seedCourses);
     console.log(`Inserted ${insertedCourses.length} courses:`);
-    insertedCourses.forEach((c) => console.log(`  [${c._id}] ${c.name}`));
+    insertedCourses.forEach((c) =>
+      console.log(`  [${c._id}] ${c.name} (${c.modules.length} modules)`),
+    );
     console.log();
 
     // 3. Enrollments
     const deletedEnrollments = await EnrollmentModel.deleteMany({});
     console.log(`Cleared ${deletedEnrollments.deletedCount} enrollments`);
-    const insertedEnrollments = await EnrollmentModel.insertMany(seedEnrollments);
+    const insertedEnrollments = await EnrollmentModel.insertMany(enrollments);
     console.log(`Inserted ${insertedEnrollments.length} enrollments`);
     console.log();
 
     // 4. Assignments
     const deletedAssignments = await AssignmentModel.deleteMany({});
     console.log(`Cleared ${deletedAssignments.deletedCount} assignments`);
-    const insertedAssignments = await AssignmentModel.insertMany(seedAssignments);
+    const insertedAssignments = await AssignmentModel.insertMany(assignments);
     console.log(`Inserted ${insertedAssignments.length} assignments`);
     console.log();
 
