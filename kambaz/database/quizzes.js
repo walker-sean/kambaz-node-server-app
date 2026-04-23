@@ -1,11 +1,74 @@
 export default [
+  // ────────────────────────────────────────────
+  //  RS101 – Rocket Propulsion  (4 quizzes)
+  //  Sorted by availableDate for demo:
+  //    Q104 → Closed          (Mar 1 – Apr 10)
+  //    Q101 → Available       (Apr 1 – May 1)
+  //    Q102 → Available       (Apr 15 – May 15)
+  //    Q103 → Not available   (May 15 – Jun 1)  UNPUBLISHED
+  // ────────────────────────────────────────────
+
+  {
+    _id: "Q104",
+    title: "Introduction to Propulsion",
+    course: "RS101",
+    description:
+      "A brief introductory quiz covering the basics of propulsion systems and their history.",
+    quizType: "GRADED_QUIZ",
+    assignmentGroup: "QUIZZES",
+    shuffleAnswers: true,
+    timeLimit: 15,
+    multipleAttempts: false,
+    howManyAttempts: 1,
+    showCorrectAnswers: true,
+    accessCode: "",
+    oneQuestionAtATime: true,
+    webcamRequired: false,
+    lockQuestionsAfterAnswering: false,
+    dueDate: "2026-04-10T23:59:00",
+    availableDate: "2026-03-01T00:00:00",
+    untilDate: "2026-04-10T23:59:00",
+    published: true,
+    questions: [
+      {
+        _id: "Q104-Q1",
+        title: "History of Rocketry",
+        type: "MULTIPLE_CHOICE",
+        points: 10,
+        question: "Who is widely considered the father of modern rocketry?",
+        choices: [
+          { _id: "Q104-Q1-C1", text: "Isaac Newton", isCorrect: false },
+          {
+            _id: "Q104-Q1-C2",
+            text: "Robert H. Goddard",
+            isCorrect: true,
+          },
+          { _id: "Q104-Q1-C3", text: "Wernher von Braun", isCorrect: false },
+          { _id: "Q104-Q1-C4", text: "Galileo Galilei", isCorrect: false },
+        ],
+        correctAnswer: null,
+        correctResponses: [],
+      },
+      {
+        _id: "Q104-Q2",
+        title: "Propulsion Definition",
+        type: "TRUE_OR_FALSE",
+        points: 10,
+        question: "Propulsion is the action of driving or pushing forward.",
+        choices: [],
+        correctAnswer: true,
+        correctResponses: [],
+      },
+    ],
+  },
+
   {
     _id: "Q101",
     title: "Rocket Propulsion Fundamentals",
     course: "RS101",
     description:
       "This quiz covers the fundamental principles of rocket propulsion including Newton's laws, thrust generation, and propellant types.",
-    quizType: "PRACTICE",
+    quizType: "GRADED_QUIZ",
     assignmentGroup: "QUIZZES",
     shuffleAnswers: true,
     timeLimit: 30,
@@ -115,14 +178,15 @@ export default [
       },
     ],
   },
+
   {
     _id: "Q102",
     title: "Combustion Chamber Design",
     course: "RS101",
     description:
       "Test your knowledge of combustion chamber principles, flame temperatures, and combustion instabilities.",
-    quizType: "PRACTICE",
-    assignmentGroup: "QUIZZES",
+    quizType: "GRADED_QUIZ",
+    assignmentGroup: "EXAMS",
     shuffleAnswers: true,
     timeLimit: 20,
     multipleAttempts: false,
@@ -185,14 +249,14 @@ export default [
         title: "Oxidizer Name",
         type: "FILL_IN_THE_BLANK",
         points: 20,
-        question:
-          "LOX stands for Liquid ______.",
+        question: "LOX stands for Liquid ______.",
         choices: [],
         correctAnswer: null,
         correctResponses: ["oxygen", "Oxygen"],
       },
     ],
   },
+
   {
     _id: "Q103",
     title: "Nozzle Design Principles",
@@ -259,13 +323,20 @@ export default [
       },
     ],
   },
+
+  // ────────────────────────────────────────────
+  //  RS102 – Aerodynamics  (2 quizzes)
+  //    Q201 → Available       (Apr 1 – May 10)
+  //    Q202 → Not available   (May 1 – May 20)
+  // ────────────────────────────────────────────
+
   {
     _id: "Q201",
     title: "Airfoil Theory Quiz",
     course: "RS102",
     description:
       "Covers the basics of airfoil aerodynamics, lift generation, and boundary layer theory.",
-    quizType: "PRACTICE",
+    quizType: "GRADED_QUIZ",
     assignmentGroup: "QUIZZES",
     shuffleAnswers: true,
     timeLimit: 20,
@@ -332,8 +403,7 @@ export default [
         title: "Drag Types",
         type: "MULTIPLE_CHOICE",
         points: 10,
-        question:
-          "Which type of drag is caused by the generation of lift?",
+        question: "Which type of drag is caused by the generation of lift?",
         choices: [
           { _id: "Q201-Q4-C1", text: "Parasitic drag", isCorrect: false },
           { _id: "Q201-Q4-C2", text: "Induced drag", isCorrect: true },
@@ -345,13 +415,14 @@ export default [
       },
     ],
   },
+
   {
     _id: "Q202",
     title: "Supersonic Flow Fundamentals",
     course: "RS102",
     description:
       "Test your understanding of compressible flow, shock waves, and supersonic aerodynamics.",
-    quizType: "PRACTICE",
+    quizType: "GRADED_SURVEY",
     assignmentGroup: "EXAMS",
     shuffleAnswers: true,
     timeLimit: 45,
@@ -411,6 +482,12 @@ export default [
       },
     ],
   },
+
+  // ────────────────────────────────────────────
+  //  RS103 – Spacecraft Design  (1 quiz)
+  //    Q301 → Available  (Apr 1 – May 15)
+  // ────────────────────────────────────────────
+
   {
     _id: "Q301",
     title: "Spacecraft Subsystems Overview",
@@ -508,4 +585,9 @@ export default [
       },
     ],
   },
+
+  // ────────────────────────────────────────────
+  //  RS104 – Organic Chemistry  →  NO quizzes
+  //    (demonstrates empty quiz list state)
+  // ────────────────────────────────────────────
 ];
