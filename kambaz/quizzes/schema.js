@@ -77,9 +77,18 @@ export const quizSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    dueDate: Date,
-    availableDate: Date,
-    untilDate: Date,
+    dueDate: {
+        type: Date,
+        default: () => Date.now() + 7 * 24 * 60 * 60 * 1000 // 1 week from now
+    },
+    availableDate: {
+        type: Date,
+        default: Date.now
+    },
+    untilDate: {
+        type: Date,
+        default: () => Date.now() + 7 * 24 * 60 * 60 * 1000
+    },
     published: {
         type: Boolean,
         default: false
